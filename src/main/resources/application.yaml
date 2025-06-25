@@ -1,0 +1,18 @@
+ktor:
+    application:
+        modules:
+            - com.ApplicationKt.module
+    deployment:
+        port: 8080
+
+
+database:
+    url: $dbUrl
+    user: $dbUser
+    password: $dbPassword
+
+jwt:
+    secret: Zr2PzDSi7/+d6RS2uRszYot1I+H66ZZ5fjELAs8BVv0=
+    issuer: http://0.0.0.0:8080/
+    audience: finances-service
+    realm: Access to Finances Ktor

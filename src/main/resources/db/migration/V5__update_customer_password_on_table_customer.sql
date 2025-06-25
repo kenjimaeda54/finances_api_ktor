@@ -1,0 +1,2 @@
+ALTER TABLE customer
+ALTER COLUMN password TYPE VARCHAR(255);
