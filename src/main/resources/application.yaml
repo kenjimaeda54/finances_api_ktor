@@ -12,7 +12,7 @@ database:
     password: $dbPassword
 
 jwt:
-    secret: Zr2PzDSi7/+d6RS2uRszYot1I+H66ZZ5fjELAs8BVv0=
-    issuer: http://0.0.0.0:8080/
+    secret: $jwtSecret
+    issuer: $jwtIssuer
     audience: finances-service
     realm: Access to Finances Ktor
