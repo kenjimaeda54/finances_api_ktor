@@ -2,7 +2,6 @@ package com.plugins
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
-import com.util.Environment
 import com.util.Environment.jwtAudience
 import com.util.Environment.jwtIssuer
 import com.util.Environment.jwtRealm
@@ -19,7 +18,7 @@ import io.ktor.server.response.*
 fun Application.configureSecurity() {
 
     install(Authentication) {
-        jwt(Constants.nameAuthRouteProteced) {
+        jwt(Constants.NAME_AUTH_ROUTE_PROTECTED) {
             realm = jwtRealm.value
             verifier(
                 JWT

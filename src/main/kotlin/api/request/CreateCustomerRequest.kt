@@ -8,6 +8,5 @@ data class CreateCustomerRequest (
    val cpf: String,
    val phone: String,
    val old: Int,
-   val isActive: Boolean? = true,
    val password: String
 )

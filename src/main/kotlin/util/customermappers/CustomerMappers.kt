@@ -19,7 +19,7 @@ fun CreateCustomerRequest.toModel() = Customer(
     cpf = this.cpf,
     phone = this.phone,
     old = this.old,
-    isActive = this.isActive ?: true,
+    isActive =  true,
     password = PasswordHashing.hashingPassword(this.password)
 )
 

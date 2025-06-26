@@ -59,5 +59,12 @@ dependencies {
     //Hashing Irreversible
     implementation(libs.hashing)
 
+    //Swagger Generator
+    //https://smiley4.github.io/ktor-openapi-tools/latest/swaggerui/getting_started/#add-dependency
+    implementation(libs.ktor.openapi)
+    implementation(libs.ktor.openapi.swagger)
+
+    //Cors
+    implementation(libs.ktor.server.cors)
 
 }

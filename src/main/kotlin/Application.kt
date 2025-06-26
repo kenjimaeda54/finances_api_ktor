@@ -13,6 +13,8 @@ fun Application.module() {
     //erro de AuthenticationHolder
     configEnvironment()
     configureSecurity()
+    configCors()
+    configureSwagger()
     configureSerialization()
     configureKoin()
     configureDatabase()

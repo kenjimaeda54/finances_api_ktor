@@ -8,7 +8,7 @@ postgres-version = "42.7.7"
 h2-version = "2.3.232"
 flyway-version = "11.9.1"
 hashing-version = "0.4"
-
+ktor-openapi-version = "5.1.0"
 
 
 [libraries]
@@ -32,6 +32,10 @@ h2 = { module = "com.h2database:h2", version.ref = "h2-version" }
 auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor-version" }
 auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor-version" }
 hashing =  { module = "org.mindrot:jbcrypt", version.ref = "hashing-version" }
+ktor-server-cors = {module = "io.ktor:ktor-server-cors", version.ref = "ktor-version"}
+ktor-openapi = { module = "io.github.smiley4:ktor-openapi", version.ref = "ktor-openapi-version" }
+ktor-openapi-swagger = {module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-openapi-version"}
+
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
