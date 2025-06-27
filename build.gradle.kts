@@ -67,4 +67,8 @@ dependencies {
     //Cors
     implementation(libs.ktor.server.cors)
 
+    //Validation Request
+    implementation(libs.ktor.request.validation)
+    implementation(libs.ktor.status.page)
+
 }

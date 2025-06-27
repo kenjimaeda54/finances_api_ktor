@@ -1,5 +1,6 @@
 package com.plugins
 
+import com.api.dto.ErrorDto
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
 import com.util.Environment.jwtAudience
@@ -45,7 +46,12 @@ fun Application.configureSecurity() {
                 }
             }
             challenge { _, _ ->
-                call.respond(HttpStatusCode.Unauthorized, mapOf("error" to "Token is not valid or expired."))
+                val errorDto = ErrorDto(
+                    httpStatusCode = HttpStatusCode.Unauthorized.value.toString(),
+                    errorCode = "Unauthorized",
+                    message = "Token is not valid or expired"
+                )
+                call.respond(HttpStatusCode.Unauthorized, errorDto)
             }
 
         }

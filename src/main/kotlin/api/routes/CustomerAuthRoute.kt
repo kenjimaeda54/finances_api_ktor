@@ -91,20 +91,13 @@ fun Route.customerAuthRouting() {
                 }
             }
         }) {
-            try {
-                val customer = call.receive<CreateCustomerRequest>()
-                customerService.addCustomer(customer.toModel())
-                call.respond(HttpStatusCode.Created)
-            } catch (ex: IllegalStateException) {
-                call.respond(HttpStatusCode.BadRequest)
-            } catch (ex: JsonConvertException) {
-                call.respond(HttpStatusCode.BadRequest)
-            } catch (ex: Exception) {
-                call.respond(
-                    HttpStatusCode.InternalServerError,
-                    mapOf("message" to "Internal server error: ${ex.message}")
-                )
-            }
+            //as validações estão nas camadas de validação
+            //não pode colcoar try catch aqui, pois assim
+            //não sera lançado o erro da camada responsavel
+            val customer = call.receive<CreateCustomerRequest>()
+            customerService.addCustomer(customer.toModel())
+            call.respond(HttpStatusCode.Created)
+
         }
     }
 

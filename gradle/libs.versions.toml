@@ -35,6 +35,8 @@ hashing =  { module = "org.mindrot:jbcrypt", version.ref = "hashing-version" }
 ktor-server-cors = {module = "io.ktor:ktor-server-cors", version.ref = "ktor-version"}
 ktor-openapi = { module = "io.github.smiley4:ktor-openapi", version.ref = "ktor-openapi-version" }
 ktor-openapi-swagger = {module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-openapi-version"}
+ktor-request-validation = { module = "io.ktor:ktor-server-request-validation", version.ref = "ktor-version" }
+ktor-status-page = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor-version" }
 
 
 [plugins]
