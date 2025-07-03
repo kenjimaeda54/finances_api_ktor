@@ -2,6 +2,7 @@ package com.api.exception
 
 import com.api.dto.ErrorDto
 import com.api.dto.FieldError
+import com.util.error.Error
 import io.ktor.http.*
 import io.ktor.server.plugins.requestvalidation.*
 import io.ktor.server.plugins.statuspages.*
@@ -22,8 +23,8 @@ fun StatusPagesConfig.handleRequestValidationException() {
         }
         val errorDto = ErrorDto(
             httpStatusCode = HttpStatusCode.BadRequest.value.toString(),
-            errorCode = "Validation error",
-            message = "Your body contains error validation",
+            errorCode = Error.ML002.code,
+            message = Error.ML002.message,
             fieldErrors = fieldErrors
         )
         call.respond(HttpStatusCode.BadRequest, errorDto)

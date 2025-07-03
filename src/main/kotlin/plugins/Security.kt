@@ -8,6 +8,9 @@ import com.util.Environment.jwtIssuer
 import com.util.Environment.jwtRealm
 import com.util.Environment.jwtSecret
 import com.util.constants.Constants
+import com.util.constants.Constants.PAYLOAD_CLAIM_ID
+import com.util.constants.Constants.PAYLOAD_CLAIM_PHONE
+import com.util.error.Error
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
@@ -37,9 +40,10 @@ fun Application.configureSecurity() {
                     .build()
             )
             validate { credential ->
-                val phone = credential.payload.getClaim("customerPhone").asString()
+                val phone = credential.payload.getClaim(PAYLOAD_CLAIM_PHONE).asString()
+                val uuid = credential.payload.getClaim(PAYLOAD_CLAIM_ID).asString()
 
-                if (phone != null && credential.payload.audience.contains(jwtAudience.value)) {
+                if (phone != null && credential.payload.audience.contains(jwtAudience.value) && uuid != null) {
                     JWTPrincipal(credential.payload)
                 } else {
                     null
@@ -48,8 +52,8 @@ fun Application.configureSecurity() {
             challenge { _, _ ->
                 val errorDto = ErrorDto(
                     httpStatusCode = HttpStatusCode.Unauthorized.value.toString(),
-                    errorCode = "Unauthorized",
-                    message = "Token is not valid or expired"
+                    errorCode = Error.ML00.code,
+                    message = Error.ML00.message
                 )
                 call.respond(HttpStatusCode.Unauthorized, errorDto)
             }

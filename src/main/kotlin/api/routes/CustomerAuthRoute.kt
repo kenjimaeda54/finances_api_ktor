@@ -1,5 +1,6 @@
 package com.api.routes
 
+import com.api.dto.ErrorDto
 import com.api.request.CreateCustomerRequest
 import com.api.request.CustomerLoginRequest
 import com.auth0.jwt.JWT
@@ -9,10 +10,12 @@ import com.util.Environment.jwtAudience
 import com.util.Environment.jwtIssuer
 import com.util.Environment.jwtSecret
 import com.util.constants.Constants
-import com.util.customermappers.toModel
+import com.util.constants.Constants.PAYLOAD_CLAIM_ID
+import com.util.constants.Constants.PAYLOAD_CLAIM_PHONE
+import com.util.error.Error
 import com.util.hashing.PasswordHashing
+import com.util.mappers.customer.toDomain
 import io.ktor.http.*
-import io.ktor.serialization.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -55,13 +58,19 @@ fun Route.customerAuthRouting() {
             val customerLogin = call.receive<CustomerLoginRequest>()
             val user = customerService.findCustomerByPhone(customerLogin.phone)
 
-            if (user == null || !PasswordHashing.verifyPassword(user.password, customerLogin.password)) {
-                call.respond(HttpStatusCode.Unauthorized, mapOf("message" to "Invalid credentials"))
+            if ( !PasswordHashing.verifyPassword(user.password, customerLogin.password)) {
+                val error = ErrorDto(
+                    httpStatusCode = HttpStatusCode.Unauthorized.toString(),
+                    errorCode = Error.ML001.code,
+                    message = Error.ML001.message
+                )
+                call.respond(HttpStatusCode.Unauthorized, error)
             } else {
                 val token = JWT.create()
                     .withAudience(jwtAudience.value)
                     .withIssuer(jwtIssuer.value)
-                    .withClaim("customerPhone", user.phone)
+                    .withClaim(PAYLOAD_CLAIM_PHONE,user.phone)
+                    .withClaim(PAYLOAD_CLAIM_ID,user.uuid)
                     .withExpiresAt(Date(System.currentTimeMillis() + TIME_EXPIRATION_JWT.inWholeMilliseconds))
                     .sign(Algorithm.HMAC256(jwtSecret.value))
 
@@ -95,7 +104,7 @@ fun Route.customerAuthRouting() {
             //não pode colcoar try catch aqui, pois assim
             //não sera lançado o erro da camada responsavel
             val customer = call.receive<CreateCustomerRequest>()
-            customerService.addCustomer(customer.toModel())
+            customerService.addCustomer(customer.toDomain())
             call.respond(HttpStatusCode.Created)
 
         }

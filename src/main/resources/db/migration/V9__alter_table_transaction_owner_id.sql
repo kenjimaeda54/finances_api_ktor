@@ -1,0 +1,2 @@
+ALTER TABLE  transaction
+ALTER COLUMN owner_id TYPE VARCHAR(255);

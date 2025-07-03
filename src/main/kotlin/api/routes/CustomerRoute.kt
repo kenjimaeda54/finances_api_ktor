@@ -1,22 +1,26 @@
 package com.api.routes
 
 import com.api.dto.CustomerDto
-import com.domain.model.Customer
+import com.api.dto.ErrorDto
 import com.service.CustomerService
 import com.util.constants.Constants
-import com.util.customermappers.toDTO
+import com.util.constants.Constants.PAYLOAD_CLAIM_ID
+import com.util.error.Error
+import com.util.mappers.customer.toDTO
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
 import org.koin.ktor.ext.inject
 import io.github.smiley4.ktoropenapi.get
 import io.github.smiley4.ktoropenapi.route
 import io.ktor.http.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 
 
 fun Route.customerRouting() {
     val customerService: CustomerService by inject()
 
-    route(Constants.ROUTE_CUSTOMER,{
+    route(Constants.ROUTE_CUSTOMER, {
         protected = true
     }) {
         get("", {
@@ -27,24 +31,40 @@ fun Route.customerRouting() {
                         example(
                             "default",
                         ) {
-                            value = listOf(
-                                CustomerDto(
-                                    name = "",
-                                    cpf = "",
-                                    phone = "",
-                                    old = 0,
-                                    isActive = true
-                                )
-                            )
+                            value =
+                                """
+                               {
+                                 "uuid": "b10cb4d2-d25e0566821",
+                                 "name": "Kenji",
+                                 "cpf": "334603",
+                                 "phone": "359316",
+                                 "old": 10,
+                                 "isActive": true,
+                                 "balance": "0.00"
+                               }
+                                """.trimIndent()
                         }
                     }
                 }
             }
         }) {
-            val customers = customerService.findAllUser()
-            call.respond(
-                customers.map { it.toDTO() },
-            )
+            val principal = call.principal<JWTPrincipal>()
+            val customerUUID = principal?.payload?.getClaim(PAYLOAD_CLAIM_ID)?.asString()
+
+            if (customerUUID == null) {
+                val errorDto = ErrorDto(
+                    httpStatusCode = HttpStatusCode.Unauthorized.value.toString(),
+                    errorCode = Error.ML00.code,
+                    message = Error.ML00.message
+                )
+                call.respond(HttpStatusCode.Unauthorized, errorDto)
+                return@get
+            }
+            val customer = customerService.findCustomerByUUID(customerUUID)
+
+            call.respond(HttpStatusCode.OK, customer.toDTO())
+
+
         }
 
     }

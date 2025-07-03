@@ -28,6 +28,7 @@ fun Application.configureSwagger() {
                 when {
                     url.contains("auth") -> setOf("Auth")
                     url.contains("customers") -> setOf("Customer")
+                    url.contains("transactions") -> setOf("Transactions")
                     else -> emptySet()
                 }
 

@@ -4,8 +4,10 @@ import com.data.entity.CustomerDAO
 import com.data.schema.CustomerTable
 import com.domain.model.Customer
 import com.domain.repository.CustomerRepository
-import com.util.customermappers.customerDaoToModel
+import com.util.mappers.customer.customerDaoToModel
 import com.util.suspendTransaction
+import java.math.BigDecimal
+import java.util.UUID
 
 class CustomerRepositoryImpl : CustomerRepository {
 
@@ -21,6 +23,7 @@ class CustomerRepositoryImpl : CustomerRepository {
             old = customer.old
             isActive = customer.isActive
             password = customer.password
+            balance = customer.balance
 
         }
     }
@@ -32,6 +35,17 @@ class CustomerRepositoryImpl : CustomerRepository {
             .limit(1)
             .map(::customerDaoToModel)
             .firstOrNull()
+    }
+
+    override suspend fun updateAccountBalance(customerId: String, balance: BigDecimal): Unit = suspendTransaction {
+        CustomerDAO.findByIdAndUpdate(UUID.fromString(customerId)) { customer ->
+            customer.balance = balance
+        }
+    }
+
+
+    override suspend fun findCustomerByUUID(uuid: String): Customer? = suspendTransaction {
+        CustomerDAO.findById(UUID.fromString(uuid))?.let(::customerDaoToModel)
     }
 
 }
