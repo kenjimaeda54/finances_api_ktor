@@ -3,9 +3,9 @@ package com.api.routes
 import com.api.dto.CustomerDto
 import com.api.dto.ErrorDto
 import com.service.CustomerService
-import com.util.constants.Constants
-import com.util.constants.Constants.PAYLOAD_CLAIM_ID
-import com.util.error.Error
+import com.util.Constants
+import com.util.Constants.PAYLOAD_CLAIM_ID
+import com.util.Error
 import com.util.mappers.customer.toDTO
 import io.ktor.server.response.*
 import io.ktor.server.routing.*

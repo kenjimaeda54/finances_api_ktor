@@ -23,6 +23,7 @@ class  HistoryDAO(id: EntityID<Int>): IntEntity(id) {
     var type by HistoryTable.type
     var transferTo by HistoryTable.transferTo
     var value by HistoryTable.value
+    var isTransferToClientFinances by HistoryTable.isTransferToClientFinances
     var isEntryMoney by HistoryTable.entryMoney
 
 }

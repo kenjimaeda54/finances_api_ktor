@@ -1,4 +1,4 @@
-package com.util.typetransaction
+package com.util
 
 enum class TypeTransaction {
     PIX,CREDIT,DEBIT,TICKET

@@ -1,6 +1,6 @@
 package com.api.dto
 
-import com.util.bigdecimal.BigDecimalSerializer
+import com.util.BigDecimalSerializer
 import kotlinx.serialization.Serializable
 import java.math.BigDecimal
 

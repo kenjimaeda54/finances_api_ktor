@@ -4,7 +4,7 @@ import com.api.dto.CustomerDto
 import com.api.request.CreateCustomerRequest
 import com.data.entity.CustomerDAO
 import com.domain.model.Customer
-import com.util.hashing.PasswordHashing
+import com.util.PasswordHashing
 import java.math.BigDecimal
 
 fun Customer.toDTO() = CustomerDto(

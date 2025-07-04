@@ -9,8 +9,8 @@ import com.domain.model.TransactionHistory
 import com.util.extensions.tryParserLocalDateTimeOrReturnLocalDateTimeNow
 
 
-fun TransactionRequest.toDomain(): Transaction =  Transaction(
-    ownerId = this.ownerId,
+fun TransactionRequest.toDomain(ownerId: String): Transaction =  Transaction(
+    ownerId = ownerId,
     value = this.value,
     transferTo = this.transferTo,
     isTransferToClientFinances = isTransferToClientFinances,
@@ -30,6 +30,8 @@ fun historyDaoToModel(dao: HistoryDAO): History = History(
     type = dao.type,
     status = dao.status,
     transferTo = dao.transferTo,
-    isEntryMoney = dao.isEntryMoney
+    isEntryMoney = dao.isEntryMoney,
+    isTransferToClientFinances = dao.isTransferToClientFinances
+
 
 )

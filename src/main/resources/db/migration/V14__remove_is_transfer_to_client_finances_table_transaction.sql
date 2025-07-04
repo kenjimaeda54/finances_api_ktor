@@ -1,0 +1,2 @@
+ALTER TABLE transaction
+DROP COLUMN is_transfer_to_client_finances CASCADE;

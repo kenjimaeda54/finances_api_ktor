@@ -1,12 +1,17 @@
 package com.api.routes
 
+import com.api.dto.ErrorDto
 import com.api.request.TransactionRequest
 import com.service.TransactionService
-import com.util.constants.Constants
+import com.util.Constants
+import com.util.Constants.PAYLOAD_CLAIM_ID
+import com.util.Error
 import com.util.mappers.transaction.toDomain
 import io.github.smiley4.ktoropenapi.post
 import io.github.smiley4.ktoropenapi.route
 import io.ktor.http.*
+import io.ktor.server.auth.*
+import io.ktor.server.auth.jwt.*
 import io.ktor.server.request.*
 import io.ktor.server.response.*
 import io.ktor.server.routing.*
@@ -28,13 +33,12 @@ fun Route.transactionsRouting() {
                         value =
                             """
                             { 
-                               "owner_id": "Id who is transferring",
                                "value": "12.00",  
                                "transfer_to": "Identifier for the person transferring",
                                "is_transfer_to_client_finances": false,
                                "date": "2024-07-02T15:30:00",
                                "type": "PIX",
-                               "isEntryMoney": false
+                               "is_entry_money": false
                             }
                             """.trimIndent()
                     }
@@ -44,8 +48,19 @@ fun Route.transactionsRouting() {
                 HttpStatusCode.Created to { }
             }
         }) {
+            val principal = call.principal<JWTPrincipal>()
+            val ownerId = principal?.payload?.getClaim(PAYLOAD_CLAIM_ID)?.asString()
+            if (ownerId == null) {
+                val errorDto = ErrorDto(
+                    httpStatusCode = HttpStatusCode.Unauthorized.value.toString(),
+                    errorCode = Error.ML00.code,
+                    message = Error.ML00.message
+                )
+                call.respond(HttpStatusCode.Unauthorized, errorDto)
+                return@post
+            }
             val transfer = call.receive<TransactionRequest>()
-            transactionService.handleHistoryTransactions(transfer.toDomain())
+            transactionService.handleHistoryTransactions(transfer.toDomain(ownerId))
             call.respond(HttpStatusCode.Created)
 
         }

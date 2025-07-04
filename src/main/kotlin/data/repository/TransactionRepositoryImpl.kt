@@ -6,9 +6,9 @@ import com.domain.model.Transaction
 import com.domain.model.TransactionHistory
 import com.domain.repository.TransactionRepository
 import com.util.mappers.transaction.transactionDaoToModel
-import com.util.status.StatusTransaction
+import com.util.StatusTransaction
 import com.util.suspendTransaction
-import com.util.typetransaction.TypeTransaction
+import com.util.TypeTransaction
 import kotlinx.datetime.toKotlinLocalDateTime
 
 class TransactionRepositoryImpl : TransactionRepository {
@@ -27,9 +27,10 @@ class TransactionRepositoryImpl : TransactionRepository {
             date = transaction.date.toKotlinLocalDateTime()
             type = transaction.type
             status = statusTransaction
-            transferTo = transaction.transferTo
+            transferTo = transaction.transferTo ?: ""
             value = transaction.value
             isEntryMoney = transaction.isEntryMoney
+            isTransferToClientFinances = transaction.isTransferToClientFinances
         }
     }
 

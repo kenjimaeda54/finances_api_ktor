@@ -1,4 +1,4 @@
-package com.util.constants
+package com.util
 
 object Constants  {
     const val NAME_AUTH_ROUTE_PROTECTED = "auth-jwt"

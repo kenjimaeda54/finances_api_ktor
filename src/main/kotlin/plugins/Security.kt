@@ -7,10 +7,10 @@ import com.util.Environment.jwtAudience
 import com.util.Environment.jwtIssuer
 import com.util.Environment.jwtRealm
 import com.util.Environment.jwtSecret
-import com.util.constants.Constants
-import com.util.constants.Constants.PAYLOAD_CLAIM_ID
-import com.util.constants.Constants.PAYLOAD_CLAIM_PHONE
-import com.util.error.Error
+import com.util.Constants
+import com.util.Constants.PAYLOAD_CLAIM_ID
+import com.util.Constants.PAYLOAD_CLAIM_PHONE
+import com.util.Error
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

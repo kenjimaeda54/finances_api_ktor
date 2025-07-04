@@ -1,6 +1,6 @@
 package com.api.routes
 
-import com.util.constants.Constants
+import com.util.Constants
 import io.github.smiley4.ktorswaggerui.swaggerUI
 import io.ktor.server.routing.*
 import io.github.smiley4.ktoropenapi.route

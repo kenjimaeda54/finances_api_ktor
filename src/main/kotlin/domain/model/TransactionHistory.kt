@@ -1,7 +1,7 @@
 package com.domain.model
 
-import com.util.status.StatusTransaction
-import com.util.typetransaction.TypeTransaction
+import com.util.StatusTransaction
+import com.util.TypeTransaction
 import kotlinx.datetime.LocalDateTime
 import java.math.BigDecimal
 
@@ -16,5 +16,6 @@ data class History (
     val type: TypeTransaction,
     val status: StatusTransaction,
     val transferTo: String? = null,
-    val isEntryMoney: Boolean
+    val isEntryMoney: Boolean,
+    val isTransferToClientFinances: Boolean ? = false
 )

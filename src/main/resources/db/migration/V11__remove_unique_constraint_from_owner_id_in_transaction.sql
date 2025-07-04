@@ -1,0 +1,1 @@
+ALTER TABLE transaction DROP CONSTRAINT transaction_owner_id_key;

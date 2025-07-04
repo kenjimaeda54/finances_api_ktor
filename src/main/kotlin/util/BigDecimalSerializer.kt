@@ -1,4 +1,4 @@
-package com.util.bigdecimal
+package com.util
 
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.descriptors.PrimitiveKind

@@ -9,11 +9,11 @@ import com.service.CustomerService
 import com.util.Environment.jwtAudience
 import com.util.Environment.jwtIssuer
 import com.util.Environment.jwtSecret
-import com.util.constants.Constants
-import com.util.constants.Constants.PAYLOAD_CLAIM_ID
-import com.util.constants.Constants.PAYLOAD_CLAIM_PHONE
-import com.util.error.Error
-import com.util.hashing.PasswordHashing
+import com.util.Constants
+import com.util.Constants.PAYLOAD_CLAIM_ID
+import com.util.Constants.PAYLOAD_CLAIM_PHONE
+import com.util.Error
+import com.util.PasswordHashing
 import com.util.mappers.customer.toDomain
 import io.ktor.http.*
 import io.ktor.server.request.*
@@ -61,8 +61,8 @@ fun Route.customerAuthRouting() {
             if ( !PasswordHashing.verifyPassword(user.password, customerLogin.password)) {
                 val error = ErrorDto(
                     httpStatusCode = HttpStatusCode.Unauthorized.toString(),
-                    errorCode = Error.ML001.code,
-                    message = Error.ML001.message
+                    errorCode = Error.ML100.code,
+                    message = Error.ML100.message
                 )
                 call.respond(HttpStatusCode.Unauthorized, error)
             } else {

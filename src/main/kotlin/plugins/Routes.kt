@@ -4,7 +4,7 @@ import com.api.routes.customerAuthRouting
 import com.api.routes.customerRouting
 import com.api.routes.swaggerRouting
 import com.api.routes.transactionsRouting
-import com.util.constants.Constants
+import com.util.Constants
 import io.github.smiley4.ktoropenapi.openApi
 import io.ktor.server.application.*
 import io.ktor.server.auth.*

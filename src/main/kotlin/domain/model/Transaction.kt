@@ -1,6 +1,6 @@
 package com.domain.model
 
-import com.util.typetransaction.TypeTransaction
+import com.util.TypeTransaction
 import java.math.BigDecimal
 import java.time.LocalDateTime
 

@@ -1,4 +1,4 @@
-package com.util.hashing
+package com.util
 
 import org.mindrot.jbcrypt.BCrypt
 

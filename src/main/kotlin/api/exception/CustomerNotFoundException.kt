@@ -1,7 +1,7 @@
 package com.api.exception
 
 import com.api.dto.ErrorDto
-import com.util.error.Error
+import com.util.Error
 import io.ktor.http.*
 import io.ktor.server.plugins.statuspages.*
 import io.ktor.server.response.*
