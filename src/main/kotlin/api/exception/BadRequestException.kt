@@ -15,8 +15,8 @@ fun StatusPagesConfig.handleBadRequestException(){
 
         val errorDto = ErrorDto(
             httpStatusCode = HttpStatusCode.BadRequest.value.toString(),
-            errorCode = Error.ML02.code,
-            message = Error.ML02.message.format(friendlyMessage)
+            errorCode = Error.ML002.code,
+            message = Error.ML002.message.format(friendlyMessage)
         )
         call.respond(
             HttpStatusCode.BadRequest,

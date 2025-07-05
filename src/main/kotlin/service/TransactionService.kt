@@ -1,11 +1,13 @@
 package com.service
 
 import com.api.exception.CustomerNotFoundException
+import com.api.exception.NotAcceptedException
 import com.domain.model.Transaction
 import com.domain.repository.CustomerRepository
 import com.domain.repository.TransactionRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
+import java.math.BigDecimal
 import java.util.*
 
 class TransactionService : KoinComponent {
@@ -21,6 +23,10 @@ class TransactionService : KoinComponent {
             customer.balance + transaction.value
         } else {
             customer.balance - transaction.value
+        }
+
+        if (currentBalance < BigDecimal.ZERO){
+            throw  NotAcceptedException("Customer with negative balance is not allowed")
         }
 
         customerRepository.updateAccountBalance(

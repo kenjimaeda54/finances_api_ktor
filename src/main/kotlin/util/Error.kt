@@ -2,9 +2,10 @@ package com.util
 
 enum class Error(val code: String, val message: String) {
 
-    ML00(code = "ML-00", message = "Access denied, token invalid or experienced"),
-    ML01(code =  "ML-01", message = "Invalid credentials"),
-    ML02(code = "ML-02", message = "%s"),
+    ML000(code = "ML-00", message = "Access denied, token invalid or experienced"),
+    ML001(code =  "ML-01", message = "Invalid credentials"),
+    ML002(code = "ML-02", message = "%s"),
+    ML003(code = "ML-03", message = "%s"),
 
     ML100(code = "ML-100", message = "Invalid request"),
     ML101(code = "ML-101", message = "Missing property look documentation"),

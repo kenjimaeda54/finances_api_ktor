@@ -52,8 +52,8 @@ fun Application.configureSecurity() {
             challenge { _, _ ->
                 val errorDto = ErrorDto(
                     httpStatusCode = HttpStatusCode.Unauthorized.value.toString(),
-                    errorCode = Error.ML00.code,
-                    message = Error.ML00.message
+                    errorCode = Error.ML000.code,
+                    message = Error.ML000.message
                 )
                 call.respond(HttpStatusCode.Unauthorized, errorDto)
             }
