@@ -1,11 +1,13 @@
 package com.data.repository
 
+import com.api.exception.ConflictException
 import com.data.entity.CustomerDAO
 import com.data.schema.CustomerTable
 import com.domain.model.Customer
 import com.domain.repository.CustomerRepository
 import com.util.mappers.customer.customerDaoToModel
 import com.util.suspendTransaction
+import org.jetbrains.exposed.exceptions.ExposedSQLException
 import java.math.BigDecimal
 import java.util.UUID
 
@@ -26,6 +28,8 @@ class CustomerRepositoryImpl : CustomerRepository {
             balance = customer.balance
 
         }
+
+
     }
 
     override suspend fun findCustomerByPhone(phone: String): Customer? = suspendTransaction {

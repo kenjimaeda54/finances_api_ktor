@@ -1,23 +1,35 @@
 package com.util.mappers.transaction
 
-import com.api.request.TransactionRequest
+import com.api.dto.HistoryDto
+import com.api.request.HistoryRequest
 import com.data.entity.HistoryDAO
 import com.data.entity.TransactionDAO
 import com.domain.model.History
-import com.domain.model.Transaction
 import com.domain.model.TransactionHistory
 import com.util.extensions.tryParserLocalDateTimeOrReturnLocalDateTimeNow
+import kotlinx.datetime.LocalDateTime
+import java.time.LocalDateTime as JavaLocalDateTime
+import kotlinx.datetime.toKotlinLocalDateTime
 
 
-fun TransactionRequest.toDomain(ownerId: String): Transaction =  Transaction(
-    ownerId = ownerId,
+fun HistoryRequest.toDomain(): History = History(
     value = this.value,
-    transferTo = this.transferTo,
-    isTransferToClientFinances = isTransferToClientFinances,
-    date = this.date.tryParserLocalDateTimeOrReturnLocalDateTimeNow(),
+    date = this.date.tryParserLocalDateTimeOrReturnLocalDateTimeNow()?.toKotlinLocalDateTime()
+        ?: JavaLocalDateTime.now().toKotlinLocalDateTime(),
     type = this.type,
-    isEntryMoney = this.isEntryMoney ?: true
+    transferTo = this.transferTo,
+    isEntryMoney = this.isEntryMoney ?: true,
+    isTransferToClientFinances = this.isTransferToClientFinances ?: false
+
 )
+
+fun History.toDTO() = HistoryDto(
+    value = this.value,
+    date = this.date.toString(),
+    type = this.type,
+    transferTo = this.transferTo
+)
+
 
 fun transactionDaoToModel(dao: TransactionDAO): TransactionHistory = TransactionHistory(
     ownerId = dao.ownerId,
@@ -32,6 +44,4 @@ fun historyDaoToModel(dao: HistoryDAO): History = History(
     transferTo = dao.transferTo,
     isEntryMoney = dao.isEntryMoney,
     isTransferToClientFinances = dao.isTransferToClientFinances
-
-
 )

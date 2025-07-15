@@ -27,7 +27,7 @@ fun Route.customerRouting() {
             description = "Retrieve all customer"
             response {
                 code(HttpStatusCode.OK) {
-                    body<List<CustomerDto>> {
+                    body<CustomerDto> {
                         example(
                             "default",
                         ) {

@@ -13,6 +13,11 @@ fun translateSerializationMessage(message: String?): String {
             "The required field '$key' is missing from your request."
         }
 
+        message.contains("Detail: Key") && message.contains("already exists") -> {
+            val key = message.substringAfter("Detail: Key (").substringBefore(")=")
+            "A record with the given value already exists for '$key'."
+        }
+
         message.contains("is not a valid") -> {
             // Ex: "Value 'abc' for field 'age' is not a valid 'kotlin.Int'"
             val value = message.substringAfter("Value '").substringBefore("'")

@@ -2,43 +2,65 @@ package com.service
 
 import com.api.exception.CustomerNotFoundException
 import com.api.exception.NotAcceptedException
-import com.domain.model.Transaction
+import com.domain.model.History
+import com.domain.model.TransactionHistory
 import com.domain.repository.CustomerRepository
 import com.domain.repository.TransactionRepository
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 import java.math.BigDecimal
-import java.util.*
 
 class TransactionService : KoinComponent {
     private val customerRepository by inject<CustomerRepository>()
     private val transactionRepository by inject<TransactionRepository>()
 
-    suspend fun handleHistoryTransactions(transaction: Transaction) {
+    suspend fun handleCreateHistoryTransactions(transaction: TransactionHistory) {
+
 
         val customer = customerRepository.findCustomerByUUID(transaction.ownerId)
             ?: throw CustomerNotFoundException(transaction.ownerId)
 
-        val currentBalance = if (transaction.isEntryMoney) {
-            customer.balance + transaction.value
-        } else {
-            customer.balance - transaction.value
+        val currentHistoryValue = transaction.listHistory.fold(BigDecimal.ZERO) { accumulator, history ->
+            if (history.isEntryMoney) {
+                accumulator + history.value
+
+            } else {
+                accumulator - history.value
+            }
         }
 
-        if (currentBalance < BigDecimal.ZERO){
-            throw  NotAcceptedException("Customer with negative balance is not allowed")
+        val finalBalance = customer.balance + currentHistoryValue
+
+        if (finalBalance < BigDecimal.ZERO) {
+            throw NotAcceptedException("Customer with negative balance is not allowed")
         }
 
         customerRepository.updateAccountBalance(
             customerId = transaction.ownerId,
-            balance = currentBalance
+            balance = finalBalance
         )
 
         transactionRepository.createTransaction(transaction)
 
     }
 
-    suspend fun retrieveTransaction(ownerId: Int) = transactionRepository.retrieveTransactionHistory(ownerId)
+    suspend fun retrieveTransaction(ownerId: String): List<History> {
+      val listTransactionHistory = transactionRepository.retrieveTransactionHistory(ownerId)
+
+       return listTransactionHistory. flatMap { transaction -> transaction.listHistory.map { history ->
+           History(
+               value = history.value,
+               date = history.date,
+               type = history.type,
+               status = history.status,
+               transferTo =  history.transferTo,
+               isEntryMoney = history.isEntryMoney,
+               isTransferToClientFinances = history.isTransferToClientFinances
+           )
+
+       }}
+    }
+
 
 }
 

@@ -8,8 +8,7 @@ fun Application.configureStatusPage() {
     install(StatusPages) {
         handleNotAcceptedException()
         handleBadRequestException()
-        handleSerializationException()
-        handleRequestValidationException()
         handleCustomerNotFoundException()
+        handleConflictException()
     }
 }

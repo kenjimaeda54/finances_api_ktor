@@ -17,10 +17,9 @@ fun StatusPagesConfig.handleNotAcceptedException() {
             message = Error.ML003.message.format(cause.message)
         )
         call.respond(
-            HttpStatusCode.NotFound,
+            HttpStatusCode.NotAcceptable,
             errorDto
         )
-
 
     }
 
