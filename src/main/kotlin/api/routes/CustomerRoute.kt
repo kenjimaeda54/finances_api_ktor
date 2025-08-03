@@ -63,8 +63,6 @@ fun Route.customerRouting() {
             val customer = customerService.findCustomerByUUID(customerUUID)
 
             call.respond(HttpStatusCode.OK, customer.toDTO())
-
-
         }
 
     }

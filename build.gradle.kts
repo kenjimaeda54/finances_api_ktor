@@ -35,8 +35,7 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
-    testImplementation(libs.ktor.server.test.host)
-    testImplementation(libs.kotlin.test.junit)
+
 
 
     //ORM ==> exposed
@@ -72,4 +71,15 @@ dependencies {
     implementation(libs.ktor.request.validation)
     implementation(libs.ktor.status.page)
 
+    //test
+    testImplementation(libs.kotlin.test)
+    testImplementation(libs.ktor.server.test.host)
+    testImplementation(libs.kotlin.test.junit)
+    testImplementation(libs.ktor.server.content.negotiation)
+    testImplementation(libs.koin.test)
+    testImplementation(libs.koin.test.junit)
+    testImplementation(libs.mockk.test)
+    testImplementation(libs.junit.jupiter.engine.test)
+    testImplementation(libs.junit.jupiter.test)
+    testImplementation(libs.ktor.server.testing)
 }

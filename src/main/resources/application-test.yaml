@@ -1,0 +1,19 @@
+ktor:
+  deployment:
+    port: 8081
+  application:
+    modules:
+      - com.ApplicationKt.module
+
+jwt:
+  secret:  test-secret
+  issuer:  test-issuer
+  audience:  test-audience
+  realm:  test-realm
+
+
+database:
+    url:  test-database-url
+    user: test-database-user
+    password:  test-database-password
+

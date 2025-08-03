@@ -9,6 +9,9 @@ h2-version = "2.3.232"
 flyway-version = "11.9.1"
 hashing-version = "0.4"
 ktor-openapi-version = "5.1.0"
+mockk-version = "1.14.4"
+junit-version = "5.13.3"
+ktor-server-testing-version = "2.3.13"
 
 
 [libraries]
@@ -22,6 +25,7 @@ logback-classic = { module = "ch.qos.logback:logback-classic", version.ref = "lo
 ktor-server-config-yaml = { module = "io.ktor:ktor-server-config-yaml", version.ref = "ktor-version" }
 ktor-server-test-host = { module = "io.ktor:ktor-server-test-host", version.ref = "ktor-version" }
 kotlin-test-junit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin-version" }
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin-version" }
 exposed-core = { module = "org.jetbrains.exposed:exposed-core", version.ref = "exposed-version" }
 exposed-jdbc = { module = "org.jetbrains.exposed:exposed-jdbc", version.ref = "exposed-version" }
 exposed-dao = { module = "org.jetbrains.exposed:exposed-dao", version.ref = "exposed-version" }
@@ -32,12 +36,19 @@ postgresql = { module = "org.postgresql:postgresql", version.ref = "postgres-ver
 h2 = { module = "com.h2database:h2", version.ref = "h2-version" }
 auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor-version" }
 auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor-version" }
-hashing =  { module = "org.mindrot:jbcrypt", version.ref = "hashing-version" }
-ktor-server-cors = {module = "io.ktor:ktor-server-cors", version.ref = "ktor-version"}
+hashing = { module = "org.mindrot:jbcrypt", version.ref = "hashing-version" }
+ktor-server-cors = { module = "io.ktor:ktor-server-cors", version.ref = "ktor-version" }
 ktor-openapi = { module = "io.github.smiley4:ktor-openapi", version.ref = "ktor-openapi-version" }
-ktor-openapi-swagger = {module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-openapi-version"}
+ktor-openapi-swagger = { module = "io.github.smiley4:ktor-swagger-ui", version.ref = "ktor-openapi-version" }
 ktor-request-validation = { module = "io.ktor:ktor-server-request-validation", version.ref = "ktor-version" }
 ktor-status-page = { module = "io.ktor:ktor-server-status-pages", version.ref = "ktor-version" }
+koin-test = { module = "io.insert-koin:koin-test", version.ref = "koin-version" }
+koin-test-junit = { module = "io.insert-koin:koin-test-junit5",version.ref = "koin-version" }
+mockk-test = { module = "io.mockk:mockk",version.ref = "mockk-version"}
+junit-jupiter-test = { module = "org.junit.jupiter:junit-jupiter-api",version.ref = "junit-version" }
+junit-jupiter-engine-test = { module = "org.junit.jupiter:junit-jupiter-engine", version.ref = "junit-version"}
+ktor-server-testing = { module = "io.ktor:ktor-server-tests-jvm", version.ref = "ktor-server-testing-version" }
+
 
 [plugins]
 kotlin-jvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin-version" }
