@@ -1,8 +1,10 @@
-
 plugins {
     alias(libs.plugins.kotlin.jvm)
     alias(libs.plugins.ktor)
     alias(libs.plugins.kotlin.plugin.serialization)
+
+    //jacoco
+    id("jacoco")
 }
 
 group = "com"
@@ -35,7 +37,6 @@ dependencies {
     implementation(libs.ktor.server.netty)
     implementation(libs.logback.classic)
     implementation(libs.ktor.server.config.yaml)
-
 
 
     //ORM ==> exposed
@@ -83,3 +84,53 @@ dependencies {
     testImplementation(libs.junit.jupiter.test)
     testImplementation(libs.ktor.server.testing)
 }
+
+
+//task para jacoco
+jacoco {
+    toolVersion = "0.8.12"
+}
+
+
+tasks.named<JacocoReport>("jacocoTestReport") {
+    dependsOn(tasks.test)
+
+
+    reports {
+        xml.required.set(true)
+        csv.required.set(false)
+        html.required.set(true)
+    }
+
+    classDirectories.setFrom(
+        files(classDirectories.files.map {
+            fileTree(it) {
+                exclude(
+                    "**/dto/**",
+                    "**/model/**",
+                    "**/exception/**",
+                    "**/plugins/**",
+                    "**/util/mappers/**",
+                    "**/*ApplicationKt.class"
+                )
+            }
+        })
+    )
+    sourceDirectories.setFrom(files("$projectDir/src/main/kotlin"))
+
+}
+
+tasks.test {
+    finalizedBy(tasks.jacocoTestReport)
+}
+
+tasks.register("jacocoTestCoverage") {
+    group = "Verification"
+    description = "Generates JaCoCo test coverage reports for the test source set."
+
+    dependsOn(tasks.jacocoTestReport)
+}
+
+
+
+
