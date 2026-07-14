@@ -1,42 +1,80 @@
-# finances
+# Finances API
 
-This project was created using the [Ktor Project Generator](https://start.ktor.io).
+API REST para gestão financeira pessoal, construída com **Ktor** (Kotlin) seguindo princípios de **Clean Architecture**.
 
-Here are some useful links to get you started:
+## Stack
 
-- [Ktor Documentation](https://ktor.io/docs/home.html)
-- [Ktor GitHub page](https://github.com/ktorio/ktor)
-- The [Ktor Slack chat](https://app.slack.com/client/T09229ZC6/C0A974TJ9). You'll need to [request an invite](https://surveys.jetbrains.com/s3/kotlin-slack-sign-up) to join.
+| Tecnologia | Versão |
+|------------|--------|
+| Kotlin | 2.1.10 |
+| Ktor (Server) | 3.2.0 |
+| Exposed (ORM) | 0.61.0 |
+| PostgreSQL | - |
+| Flyway (Migration) | 11.9.1 |
+| Koin (DI) | 3.4.3 |
+| JWT (Auth) | HMAC256 |
+| BCrypt (Hashing) | jbcrypt 0.4 |
+| Swagger/OpenAPI | ktor-openapi 5.1.0 |
+| Test | JUnit 5 + MockK |
+| Cobertura | JaCoCo 0.8.12 |
 
-## Features
+## Endpoints
 
-Here's a list of features included in this project:
+| Método | Rota | Autenticação | Descrição |
+|--------|------|--------------|-----------|
+| POST | `/auth/register` | ❌ | Criar conta |
+| POST | `/auth/login` | ❌ | Autenticar e obter JWT |
+| GET | `/customers` | ✅ JWT | Dados do perfil |
+| POST | `/transactions` | ✅ JWT | Criar transação(ões) |
+| GET | `/transactions` | ✅ JWT | Histórico de transações |
+| GET | `/swagger` | ❌ | Swagger UI |
+| GET | `/api.json` | ❌ | Schema OpenAPI |
 
-| Name                                                                   | Description                                                                        |
-| ------------------------------------------------------------------------|------------------------------------------------------------------------------------ |
-| [Koin](https://start.ktor.io/p/koin)                                   | Provides dependency injection                                                      |
-| [Content Negotiation](https://start.ktor.io/p/content-negotiation)     | Provides automatic content conversion according to Content-Type and Accept headers |
-| [Routing](https://start.ktor.io/p/routing)                             | Provides a structured routing DSL                                                  |
-| [kotlinx.serialization](https://start.ktor.io/p/kotlinx-serialization) | Handles JSON serialization using kotlinx.serialization library                     |
-
-## Building & Running
-
-To build or run the project, use one of the following tasks:
-
-| Task                          | Description                                                          |
-| -------------------------------|---------------------------------------------------------------------- |
-| `./gradlew test`              | Run the tests                                                        |
-| `./gradlew build`             | Build everything                                                     |
-| `buildFatJar`                 | Build an executable JAR of the server with all dependencies included |
-| `buildImage`                  | Build the docker image to use with the fat JAR                       |
-| `publishImageToLocalRegistry` | Publish the docker image locally                                     |
-| `run`                         | Run the server                                                       |
-| `runDocker`                   | Run using the local docker image                                     |
-
-If the server starts successfully, you'll see the following output:
+## Arquitetura
 
 ```
-2024-12-04 14:32:45.584 [main] INFO  Application - Application started in 0.303 seconds.
-2024-12-04 14:32:45.682 [main] INFO  Application - Responding at http://0.0.0.0:8080
+src/
+├── api/          # DTOs, requests, rotas, exceções, validação
+├── domain/       # Modelos e interfaces de repositório
+├── data/         # Implementação dos repositórios (Exposed DAO), schemas de tabela
+├── service/      # Regras de negócio
+├── plugins/      # Configurações do Ktor (DI, DB, JWT, CORS, Swagger etc.)
+└── util/         # Constantes, mappers, extensions, serializers
 ```
 
+## Pré-requisitos
+
+- JDK 21+
+- PostgreSQL
+
+## Configuração
+
+As configurações são injetadas via variáveis de ambiente no `application.yaml`:
+
+| Variável | Descrição |
+|----------|-----------|
+| `dbUrl` | URL de conexão do banco |
+| `dbUser` | Usuário do banco |
+| `dbPassword` | Senha do banco |
+| `jwtSecret` | Segredo para assinar tokens JWT |
+| `jwtIssuer` | Emissor do token |
+
+## Executar
+
+```bash
+./gradlew run
+```
+
+O servidor inicia em `http://0.0.0.0:8080`.
+
+## Testes
+
+```bash
+./gradlew test
+```
+
+Relatório de cobertura (JaCoCo) é gerado automaticamente após os testes em `build/reports/jacoco/`.
+
+## Migrações
+
+As migrações Flyway estão em `src/main/resources/db/migration/` e são executadas automaticamente na inicialização.
